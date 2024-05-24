@@ -1,10 +1,10 @@
+
 // Mock data for demonstratio
 document.addEventListener("DOMContentLoaded", async () => {
   const response = await fetch(
     "https://64b6b8aadf0839c97e16081a.mockapi.io/todos"
   );
   const tasks = await response.json();
-
   const taskContainer = document.getElementById("taskContainer");
   const addTaskBtn = document.getElementById("addTaskBtn");
   const filterTasks = document.getElementById("filterTasks");
@@ -72,6 +72,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       displayTasks(filterTasks.value);
     }
   });
+  
+  // Initial display of tasks
+  displayTasks();
+
+  // Add task button event
+  addTaskBtn.addEventListener("click", () => {
+    const newTaskTitle = newTaskInput.value.trim();
+    if (newTaskTitle) {
+      const newTask = {
+        id: tasks.length + 1,
+        title: newTaskTitle,
+        time: new Date().toLocaleString(),
+        completed: false,
+      };
+      tasks.push(newTask);
+      newTaskInput.value = ""; // Clear input field
+      displayTasks(filterTasks.value);
+    }
+  });
 
   // Filter tasks event
   filterTasks.addEventListener("change", (e) => {
@@ -125,6 +144,25 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
         });
       });
+
+
+  // Event delegation for task actions
+  taskContainer.addEventListener("click", (e) => {
+    const id = parseInt(e.target.dataset.id);
+    if (e.target.className === "edit") {
+      const newTitle = prompt("Edit task:");
+      if (newTitle) {
+        const task = tasks.find((task) => task.id === id);
+        task.title = newTitle;
+        displayTasks(filterTasks.value);
+      }
+    } else if (e.target.className === "delete") {
+      const taskIndex = tasks.findIndex((task) => task.id === id);
+      tasks.splice(taskIndex, 1);
+      displayTasks(filterTasks.value);
+    } else if (e.target.type === "checkbox") {
+      const task = tasks.find((task) => task.id === id);
+      task.completed = e.target.checked;
     }
   });
 });
