@@ -1,4 +1,3 @@
-
 // Mock data for demonstratio
 document.addEventListener("DOMContentLoaded", async () => {
   const response = await fetch(
@@ -9,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const addTaskBtn = document.getElementById("addTaskBtn");
   const filterTasks = document.getElementById("filterTasks");
   const newTaskInput = document.getElementById("newTaskInput");
-
+ 
   // Function to display tasks
   function displayTasks(filter = "all") {
     taskContainer.innerHTML = "";
@@ -18,30 +17,30 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (filter === "completed") return task.completed;
       return true;
     });
-
+ 
     filteredTasks.forEach((task) => {
       const taskElement = document.createElement("div");
       taskElement.className = `task ${task.completed ? "completed" : ""}`;
       taskElement.innerHTML = `
-                <div>
-                    <input type="checkbox" ${
+<div>
+<input type="checkbox" ${
                       task.completed ? "checked" : ""
                     } data-id="${task.id}">
-                    <span>${task.title}</span>
-                    <small>${task.time}</small>
-                </div>
-                <div class="task-controls">
-                    <button data-id="${task.id}" class="edit">✎</button>
-                    <button data-id="${task.id}" class="delete">✗</button>
-                </div>
+<span>${task.title}</span>
+<small>${task.time}</small>
+</div>
+<div class="task-controls">
+<button data-id="${task.id}" class="edit">✎</button>
+<button data-id="${task.id}" class="delete">✗</button>
+</div>
             `;
       taskContainer.appendChild(taskElement);
     });
   }
-
+ 
   // Initial display of tasks
   await displayTasks();
-
+ 
   // Add task button event
   addTaskBtn.addEventListener("click", () => {
     const newTaskTitle = newTaskInput.value.trim();
@@ -54,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       };
       tasks.push(newTask);
       newTaskInput.value = ""; // Clear input field
-
+ 
       // add data to api
       fetch("https://64b6b8aadf0839c97e16081a.mockapi.io/todos", {
         method: "POST",
@@ -67,15 +66,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log(newTask);
         console.log("Item created successfully");
       });
-
+ 
       console.log(newTask);
       displayTasks(filterTasks.value);
     }
   });
-  
   // Initial display of tasks
   displayTasks();
-
+ 
   // Add task button event
   addTaskBtn.addEventListener("click", () => {
     const newTaskTitle = newTaskInput.value.trim();
@@ -91,12 +89,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       displayTasks(filterTasks.value);
     }
   });
-
+ 
   // Filter tasks event
   filterTasks.addEventListener("change", (e) => {
     displayTasks(e.target.value);
   });
-
+ 
   // Event delegation for task actions
   taskContainer.addEventListener("click", async (e) => {
     const id = parseInt(e.target.dataset.id);
@@ -118,7 +116,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const taskIndex = tasks.findIndex((task) => task.id === id);
       tasks.splice(taskIndex, 1);
       displayTasks(filterTasks.value);
-
+ 
       fetch(`https://64b6b8aadf0839c97e16081a.mockapi.io/todos/${id}`, {
         method: "DELETE",
       }).then((res, err) => {
@@ -144,8 +142,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
         });
       });
-
-
+ 
+ 
   // Event delegation for task actions
   taskContainer.addEventListener("click", (e) => {
     const id = parseInt(e.target.dataset.id);
