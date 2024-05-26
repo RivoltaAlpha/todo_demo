@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to display tasks
   function displayTasks(filter = "all") {
-    // taskContainer.innerHTML = "";
+    taskContainer.innerHTML = "";
     const filteredTasks = tasks.filter((task) => {
       if (filter === "active") return !task.completed;
       if (filter === "completed") return task.completed;
@@ -39,18 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const taskElement = document.createElement("div");
       taskElement.className = `task ${task.completed ? "completed" : ""}`;
       taskElement.innerHTML = `
-                <div>
-                    <input type="checkbox" ${
-                      task.completed ? "checked" : ""
-                    } data-id="${task.id}">
-                    <span>${task.title}</span>
-                    <small>${task.time}</small>
-                </div>
-                <div class="task-controls">
-                    <button data-id="${task.id}" class="edit">✎</button>
-                    <button data-id="${task.id}" class="delete">✗</button>
-                </div>
-            `;
+              <div>
+                  <input type="checkbox" ${
+                    task.completed ? "checked" : ""
+                  } data-id="${task.id}">
+                  <span>${task.title}</span>
+                  <small>${task.time}</small>
+              </div>
+              <div class="task-controls">
+                  <button data-id="${task.id}" class="edit">✎</button>
+                  <button data-id="${task.id}" class="delete">✗</button>
+              </div>
+          `;
       taskContainer.appendChild(taskElement);
     });
   }
